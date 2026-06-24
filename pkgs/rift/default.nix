@@ -1,40 +1,36 @@
 { pkgs }:
 
-pkgs.stdenv.mkDerivation {
+pkgs.stdenv.mkDerivation rec {
   pname = "rift";
   version = "5.24.3";
 
   src = pkgs.fetchurl {
-    url = "https://riftforeve.online/download/debian/rift_5.24.3_amd64.deb";
+    url = "https://riftforeve.online/download/debian/rift_${version}_amd64.deb";
     hash = "sha256-EG2eUuLgcNF7j/48zmYaUuEG3hEmGuZ8vB3mXPTFbnk=";
   };
 
   nativeBuildInputs = [
     pkgs.dpkg
     pkgs.autoPatchelfHook
+    pkgs.makeWrapper
   ];
 
   buildInputs = with pkgs; [
     alsa-lib
     freetype
-    gcc-unwrapped
-    glibc
-    libx11
-    libxext
-    libxi
-    libxrender
-    libxtst
     zlib
 
-   wayland
-  wayland-protocols
+    libGL
+    libxkbcommon
+    wayland
+    wayland-protocols
 
-  libxkbcommon
-  libGL
-
-  libX11
-  libXext
-  libXi
+    xorg.libX11
+    xorg.libXext
+    xorg.libXi
+    xorg.libXrender
+    xorg.libXtst
+    xorg.libXrandr
   ];
 
   unpackPhase = ''
@@ -44,7 +40,29 @@ pkgs.stdenv.mkDerivation {
   installPhase = ''
     mkdir -p $out
     cp -r usr/* $out/
-    mkdir -p $out/bin
-    ln -sf $out/usr/bin/rift $out/bin/rift
   '';
+
+  postFixup = ''
+    wrapProgram $out/bin/rift \
+      --prefix LD_LIBRARY_PATH : ${
+        pkgs.lib.makeLibraryPath [
+          pkgs.alsa-lib
+          pkgs.libGL
+          pkgs.libxkbcommon
+          pkgs.wayland
+
+          pkgs.xorg.libX11
+          pkgs.xorg.libXext
+          pkgs.xorg.libXi
+          pkgs.xorg.libXrender
+          pkgs.xorg.libXtst
+          pkgs.xorg.libXrandr
+        ]
+      }
+  '';
+
+  meta = with pkgs.lib; {
+    description = "RIFT";
+    platforms = platforms.linux;
+  };
 }
