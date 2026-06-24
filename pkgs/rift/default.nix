@@ -19,9 +19,15 @@ pkgs.stdenv.mkDerivation {
 
   installPhase = ''
     mkdir -p $out/opt/rift
+
+    # copy everything extracted (safe regardless of folder structure)
     cp -r ./* $out/opt/rift
 
     mkdir -p $out/bin
-    makeWrapper $out/opt/rift/rift $out/bin/rift
+
+    # find the actual binary dynamically (important fix)
+    BIN=$(find $out/opt/rift -type f -name rift -executable | head -n 1)
+
+    makeWrapper $BIN $out/bin/rift
   '';
 }
