@@ -2,44 +2,26 @@
 
 pkgs.stdenv.mkDerivation {
   pname = "rift";
-  version = "5.24.3";
+  version = "5.24.4";
 
   src = pkgs.fetchurl {
-    url = "https://riftforeve.online/download/debian/rift_5.24.3_amd64.deb";
-    hash = "sha256-EG2eUuLgcNF7j/48zmYaUuEG3hEmGuZ8vB3mXPTFbnk=";
+    url = "https://riftforeve.online/download/rift-5.24.4-linux-amd64.tar.gz";
+    hash = "sha256-Qsymo/z3tP8g0g8A5xfZPvv1aVvXiVeUvcjGDb/N054=";
   };
 
   nativeBuildInputs = [
-    pkgs.dpkg
-    pkgs.autoPatchelfHook
+    pkgs.makeWrapper
   ];
 
-  buildInputs = with pkgs; [
-    alsa-lib
-    freetype
-    gcc-unwrapped
-    glibc
-    libx11
-    libxext
-    libxi
-    libxrender
-    libxtst
-    zlib
-
-   wayland
-  wayland-protocols
-  ];
-
-env.NIX_LDFLAGS = "-L${pkgs.wayland}/lib";
-
-unpackPhase = ''
-    dpkg-deb -x $src .
+  unpackPhase = ''
+    tar -xzf $src
   '';
 
   installPhase = ''
-    mkdir -p $out
-    cp -r usr/* $out/
+    mkdir -p $out/opt/rift
+    cp -r ./* $out/opt/rift
+
     mkdir -p $out/bin
-    ln -sf $out/usr/bin/rift $out/bin/rift
+    makeWrapper $out/opt/rift/rift $out/bin/rift
   '';
 }
