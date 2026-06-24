@@ -24,7 +24,7 @@ pkgs.stdenv.mkDerivation rec {
     libxkbcommon
     wayland
     wayland-protocols
-    libstdc++
+    
 libgcc
     stdenv.cc.cc.lib
     libX11
@@ -56,8 +56,9 @@ installPhase = ''
           pkgs.alsa-lib
           pkgs.libGL
           pkgs.libxkbcommon
+
           pkgs.wayland
-          pkgs.libstdc++
+          pkgs.stdenv.cc.cc.lib
           pkgs.libgcc
           pkgs.libX11
           pkgs.libXext
