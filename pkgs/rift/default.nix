@@ -2,27 +2,49 @@
 
 pkgs.stdenv.mkDerivation {
   pname = "rift";
-  version = "5.24.4";
+  version = "5.24.3";
 
   src = pkgs.fetchurl {
-    url = "https://riftforeve.online/download/rift-5.24.4-linux-amd64.tar.gz";
-    hash = "sha256-Qsymo/z3tP8g0g8A5xfZPvv1aVvXiVeUvcjGDb/N054=";
+    url = "https://riftforeve.online/download/debian/rift_5.24.3_amd64.deb";
+    hash = "sha256-EG2eUuLgcNF7j/48zmYaUuEG3hEmGuZ8vB3mXPTFbnk=";
   };
 
   nativeBuildInputs = [
-    pkgs.makeWrapper
+    pkgs.dpkg
+    pkgs.autoPatchelfHook
   ];
 
-  dontUnpack = false;
+  buildInputs = with pkgs; [
+    alsa-lib
+    freetype
+    gcc-unwrapped
+    glibc
+    libx11
+    libxext
+    libxi
+    libxrender
+    libxtst
+    zlib
+
+   wayland
+  wayland-protocols
+
+  libxkbcommon
+  libGL
+
+  libX11
+  libXext
+  libXi
+  ];
+
+  unpackPhase = ''
+    dpkg-deb -x $src .
+  '';
 
   installPhase = ''
-    mkdir -p $out/opt/rift
-    cp -r ./* $out/opt/rift
-
-    # find actual binary inside extracted folder
-    BIN=$(find $out/opt/rift -type f -name rift -executable | head -n 1)
-
+    mkdir -p $out
+    cp -r usr/* $out/
     mkdir -p $out/bin
-    makeWrapper $BIN $out/bin/rift
+    ln -sf $out/usr/bin/rift $out/bin/rift
   '';
 }
