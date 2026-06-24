@@ -13,21 +13,16 @@ pkgs.stdenv.mkDerivation {
     pkgs.makeWrapper
   ];
 
-  unpackPhase = ''
-    tar -xzf $src
-  '';
+  dontUnpack = false;
 
   installPhase = ''
     mkdir -p $out/opt/rift
-
-    # copy everything extracted (safe regardless of folder structure)
     cp -r ./* $out/opt/rift
 
-    mkdir -p $out/bin
-
-    # find the actual binary dynamically (important fix)
+    # find actual binary inside extracted folder
     BIN=$(find $out/opt/rift -type f -name rift -executable | head -n 1)
 
+    mkdir -p $out/bin
     makeWrapper $BIN $out/bin/rift
   '';
 }
