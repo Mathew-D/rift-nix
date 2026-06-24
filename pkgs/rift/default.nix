@@ -38,20 +38,14 @@ pkgs.stdenv.mkDerivation rec {
   '';
 
 installPhase = ''
-  mkdir -p $out
-  cp -r usr/* $out/
+    mkdir -p $out
+    cp -r usr/* $out/
 
-  echo "===== bin ====="
-  ls -lah $out/bin || true
-
-  echo "===== rift ====="
-  file $out/bin/rift || true
-
-  echo "===== symlink ====="
-  readlink -f $out/bin/rift || true
-
-  exit 1
-'';
+    # Fix broken absolute symlink from the Debian package:
+    # /usr/bin/rift -> /usr/lib/nohus/rift/bin/rift
+    rm -f $out/bin/rift
+    ln -s ../lib/nohus/rift/bin/rift $out/bin/rift
+  '';
 
   postFixup = ''
     wrapProgram $out/bin/rift \
