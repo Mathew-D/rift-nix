@@ -19,7 +19,10 @@ pkgs.stdenv.mkDerivation rec {
     alsa-lib
     freetype
     zlib
-
+fontconfig
+freetype
+libuuid
+expat
     libGL
     libxkbcommon
     wayland
@@ -33,6 +36,7 @@ libgcc
     libXrender
     libXtst
     libXrandr
+libXft
   ];
 
   unpackPhase = ''
@@ -55,8 +59,11 @@ installPhase = ''
         pkgs.lib.makeLibraryPath [
           pkgs.alsa-lib
           pkgs.libGL
+ pkgs.fontconfig
+        pkgs.freetype
+        pkgs.libXft
           pkgs.libxkbcommon
-
+          pkgs.libXft
           pkgs.wayland
           pkgs.stdenv.cc.cc.lib
           pkgs.libgcc
