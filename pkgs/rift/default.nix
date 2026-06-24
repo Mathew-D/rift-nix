@@ -30,7 +30,9 @@ pkgs.stdenv.mkDerivation {
   wayland-protocols
   ];
 
-  unpackPhase = ''
+env.NIX_LDFLAGS = "-L${pkgs.wayland}/lib";
+
+unpackPhase = ''
     dpkg-deb -x $src .
   '';
 
