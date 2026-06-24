@@ -28,13 +28,6 @@ pkgs.stdenv.mkDerivation {
 
    wayland
   wayland-protocols
-
-  libxkbcommon
-  libGL
-
-  libX11
-  libXext
-  libXi
   ];
 
   unpackPhase = ''
