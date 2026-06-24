@@ -25,6 +25,10 @@ pkgs.stdenv.mkDerivation {
     libxrender
     libxtst
     zlib
+
+    wayland
+    wayland-protocols
+    libwayland
   ];
 
   unpackPhase = ''
