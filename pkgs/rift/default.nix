@@ -25,12 +25,12 @@ pkgs.stdenv.mkDerivation rec {
     wayland
     wayland-protocols
 
-    xorg.libX11
-    xorg.libXext
-    xorg.libXi
-    xorg.libXrender
-    xorg.libXtst
-    xorg.libXrandr
+    libX11
+    libXext
+    libXi
+    libXrender
+    libXtst
+    libXrandr
   ];
 
   unpackPhase = ''
