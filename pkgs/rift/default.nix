@@ -51,12 +51,12 @@ pkgs.stdenv.mkDerivation rec {
           pkgs.libxkbcommon
           pkgs.wayland
 
-          pkgs.xorg.libX11
-          pkgs.xorg.libXext
-          pkgs.xorg.libXi
-          pkgs.xorg.libXrender
-          pkgs.xorg.libXtst
-          pkgs.xorg.libXrandr
+          pkgs.libX11
+          pkgs.libXext
+          pkgs.libXi
+          pkgs.libXrender
+          pkgs.libXtst
+          pkgs.libXrandr
         ]
       }
   '';
