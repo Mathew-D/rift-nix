@@ -37,10 +37,16 @@ pkgs.stdenv.mkDerivation rec {
     dpkg-deb -x $src .
   '';
 
-  installPhase = ''
-    mkdir -p $out
-    cp -r usr/* $out/
-  '';
+ installPhase = ''
+  mkdir -p $out
+  cp -r usr/* $out/
+
+  echo "==== BIN ===="
+  ls -lah $out/bin || true
+
+  echo "==== FIND RIFT ===="
+  find $out -name '*rift*' -ls
+'';
 
   postFixup = ''
     wrapProgram $out/bin/rift \
