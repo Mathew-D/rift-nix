@@ -37,15 +37,20 @@ pkgs.stdenv.mkDerivation rec {
     dpkg-deb -x $src .
   '';
 
- installPhase = ''
+installPhase = ''
   mkdir -p $out
   cp -r usr/* $out/
 
-  echo "==== BIN ===="
+  echo "===== bin ====="
   ls -lah $out/bin || true
 
-  echo "==== FIND RIFT ===="
-  find $out -name '*rift*' -ls
+  echo "===== rift ====="
+  file $out/bin/rift || true
+
+  echo "===== symlink ====="
+  readlink -f $out/bin/rift || true
+
+  exit 1
 '';
 
   postFixup = ''
