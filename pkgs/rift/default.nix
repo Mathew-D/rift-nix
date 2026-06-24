@@ -55,6 +55,13 @@ installPhase = ''
 
   postFixup = ''
     wrapProgram $out/bin/rift \
+ --prefix PATH : ${
+      pkgs.lib.makeBinPath [
+        pkgs.xwininfo
+        pkgs.xprop
+        pkgs.wmctrl
+      ]
+    } \
       --prefix LD_LIBRARY_PATH : ${
         pkgs.lib.makeLibraryPath [
           pkgs.alsa-lib
