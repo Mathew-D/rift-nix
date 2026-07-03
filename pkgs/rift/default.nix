@@ -57,6 +57,9 @@ installPhase = ''
     if [ -d "$out/share/applications" ]; then
       substituteInPlace $out/share/applications/*.desktop \
         --replace-fail 'Exec=/usr/lib/nohus/rift/bin/rift' "Exec=$out/bin/rift"
+
+      # Some launchers still show this helper entry despite NoDisplay=true.
+      rm -f "$out/share/applications/dev.nohus.rift.window.desktop"
     fi
   '';
 
@@ -73,9 +76,13 @@ installPhase = ''
         pkgs.lib.makeLibraryPath [
           pkgs.alsa-lib
           pkgs.libGL
+          pkgs.dbus
  pkgs.fontconfig
         pkgs.freetype
         pkgs.libXft
+          pkgs.gtk3
+          pkgs.glib
+          pkgs.gdk-pixbuf
           pkgs.libxkbcommon
           pkgs.libXft
           pkgs.wayland
