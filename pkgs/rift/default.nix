@@ -51,6 +51,13 @@ installPhase = ''
     # /usr/bin/rift -> /usr/lib/nohus/rift/bin/rift
     rm -f $out/bin/rift
     ln -s ../lib/nohus/rift/bin/rift $out/bin/rift
+
+    # Desktop files from the Debian package point to /usr paths that do not
+    # exist in Nix; rewrite them to use the packaged launcher.
+    if [ -d "$out/share/applications" ]; then
+      substituteInPlace $out/share/applications/*.desktop \
+        --replace-fail 'Exec=/usr/lib/nohus/rift/bin/rift' "Exec=$out/bin/rift"
+    fi
   '';
 
   postFixup = ''
