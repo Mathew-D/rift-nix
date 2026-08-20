@@ -2,11 +2,11 @@
 
 pkgs.stdenv.mkDerivation rec {
   pname = "rift";
-  version = "5.26.1";
+  version = "5.29.0";
 
   src = pkgs.fetchurl {
     url = "https://riftforeve.online/download/debian/rift_${version}_amd64.deb";
-    hash = "sha256-61jpFx/PplThhNu2V+NOUDB+NPPu7hAyCbErOzyVjzs=";
+    hash = "sha256-fpB8sICdEmWSde4xGbBV6I4ZfQfExskWO3ziWAwLEFk=";
   };
 
   nativeBuildInputs = [
