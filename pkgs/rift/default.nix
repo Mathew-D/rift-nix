@@ -2,11 +2,11 @@
 
 pkgs.stdenv.mkDerivation rec {
   pname = "rift";
-  version = "5.29.0";
+  version = "6.3.0";
 
   src = pkgs.fetchurl {
     url = "https://riftforeve.online/download/debian/rift_${version}_amd64.deb";
-    hash = "sha256-fpB8sICdEmWSde4xGbBV6I4ZfQfExskWO3ziWAwLEFk=";
+    hash = "sha256-o/Ymw17OxZcb6463Y4Sls6BosAhSqkY2/gER07NH8v4=";
   };
 
   nativeBuildInputs = [
@@ -27,8 +27,7 @@ expat
     libxkbcommon
     wayland
     wayland-protocols
-    
-libgcc
+    libgcc
     stdenv.cc.cc.lib
     libX11
     libXext
@@ -86,8 +85,6 @@ installPhase = ''
           pkgs.libxkbcommon
           pkgs.libXft
           pkgs.wayland
-          pkgs.stdenv.cc.cc.lib
-          pkgs.libgcc
           pkgs.libX11
           pkgs.libXext
           pkgs.libXi
