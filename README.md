@@ -81,4 +81,4 @@ Issues and pull requests are welcome. If you encounter a problem or have an impr
 The Nix packaging in this repository is licensed under the MIT License.
 
 The RIFT client itself is proprietary software and remains the property of its respective owners. This repository only packages the official client for use with Nix.
-Version: 6.3.0
+Version: 6.6.1
